@@ -26,39 +26,39 @@ void loop()
   if(Serial.available() > 0){
     in_char = Serial.read();
   }
-  if(in_char == 'q'){
-    *portB &= ~(0x01 << 6);
-    *myTCCR1B &= 0xF8;
+  switch(in_char){
+    case 'q':
+      frequency = 0;
+      break;
+    case 'a':
+      frequency = 440;
+      break;
+    case 'b':
+      frequency = 494;
+      break;
+    case 'c':
+      frequency = 523;
+      break;
+    case 'd':
+      frequency = 587;
+      break;
+    case 'e':
+      frequency = 659;
+      break;
+    case 'f':
+      frequency = 698;
+      break;
+    case 'g':
+      frequency = 784;
+      break;
   }
-  else{
-    switch(in_char){
-      case 'a':
-        frequency = 440;
-        break;
-      case 'b':
-        frequency = 494;
-        break;
-      case 'c':
-        frequency = 523;
-        break;
-      case 'd':
-        frequency = 587;
-        break;
-      case 'e':
-        frequency = 659;
-        break;
-      case 'f':
-        frequency = 698;
-        break;
-      case 'g':
-        frequency = 784;
-        break;
-    }
-    *portB |= 0x01 << 6;
-    my_delay(frequency);
-    *portB &= ~(0x01 << 6);
-    my_delay(frequency);
+  if(frequency == 0){
+    return;
   }
+  *portB |= 0x01 << 6;
+  my_delay(frequency);
+  *portB &= ~(0x01 << 6);
+  my_delay(frequency);
 }
 //replace '??' With your value
 void my_delay(unsigned int freq)
